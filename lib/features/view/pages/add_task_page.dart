@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:todo/features/model/task.dart';
 import 'package:todo/utils/service/api_post_task.dart';
 import 'package:todo/utils/service/api_put_task.dart';
+import 'package:todo/utils/snack/snackbar_helper.dart';
 
 class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({super.key, this.taskToEdite});
+  const AddTaskPage({
+    super.key,
+    this.taskToEdite,
+  });
   final Task? taskToEdite;
+
   @override
   State<AddTaskPage> createState() => _AddTaskPageState();
 }
@@ -70,7 +75,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
       description: descriptionController.text,
       isCompleted: false,
     );
-    submitDatas(taskFromForm);
+    var isSuccess = await apiPostTask(taskFromForm);
+    if (isSuccess) {
+      showSuccessMessage(context, message: "task updated successfuly");
+      Navigator.of(context).pop();
+    } else {
+      showErrorMessage(context, message: "Error");
+    }
   }
 
   //--------------------------------update task
@@ -85,8 +96,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
       title: titleController.text,
       description: descriptionController.text,
       isCompleted: false,
+      id: widget.taskToEdite!.id,
     );
     //print("data to update : ${taskFromForm.title}");
-    apiUpdateTask(taskFromForm);
+    var isSuccess = await apiUpdateTask(taskFromForm);
+    if (isSuccess) {
+      showSuccessMessage(context, message: "task updated successfuly");
+    } else {
+      showErrorMessage(context, message: "Error");
+    }
   }
 }

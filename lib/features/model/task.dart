@@ -23,6 +23,7 @@ class Task {
     data["title"] = title;
     data["description"] = description;
     data["is_completed"] = isCompleted;
+    data["_id"] = id;
     return data;
   }
 }

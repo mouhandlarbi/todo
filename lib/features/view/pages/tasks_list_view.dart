@@ -45,11 +45,20 @@ class _TasksListViewState extends State<TasksListView> {
         visible: isLoading,
         replacement: RefreshIndicator(
           onRefresh: setTask,
-          child: ListView.builder(
-            itemCount: tasks.length,
-            itemBuilder: (BuildContext context, int index) {
-              return TasksListTile(task: tasks[index], index: index);
-            },
+          child: Visibility(
+            visible: tasks.isNotEmpty,
+            replacement: const Center(
+              child: Text("no task yet"),
+            ),
+            child: ListView.builder(
+              itemCount: tasks.length,
+              itemBuilder: (BuildContext context, int index) {
+                return TasksListTile(
+                  task: tasks[index],
+                  index: index,
+                );
+              },
+            ),
           ),
         ),
         child: const Center(child: CircularProgressIndicator()),

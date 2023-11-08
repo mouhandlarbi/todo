@@ -3,11 +3,9 @@ import 'dart:convert';
 
 import 'package:todo/features/model/task.dart';
 
-Future<void> apiUpdateTask(Task taskToUpdate) async {
+Future<bool> apiUpdateTask(Task taskToUpdate) async {
   //get the data from the form
-
   final body = taskToUpdate.toJson();
-  print(body.toString());
   //submit updated data to the server
   final uri = Uri.parse('https://api.nstack.in/v1/todos/${taskToUpdate.id}');
 
@@ -17,5 +15,5 @@ Future<void> apiUpdateTask(Task taskToUpdate) async {
     headers: {'Content-Type': 'application/json'},
   );
   //show success or fail message based on status
-  print(response);
+  return response.statusCode == 200;
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo/features/model/task.dart';
 import 'package:todo/features/view/pages/add_task_page.dart';
 import 'package:todo/utils/service/api_delete_task.dart';
+import 'package:todo/utils/service/api_get_tasks.dart';
 
 class TasksListTile extends StatefulWidget {
   const TasksListTile({
@@ -31,11 +32,15 @@ class _TasksListTileState extends State<TasksListTile> {
             ),
           ),
           trailing: PopupMenuButton(
-            onSelected: (value) {
+            onSelected: (value) async {
               if (value == "edit") {
                 navigateToEditPage(widget.task);
               } else if (value == "delete") {
-                deleteTask(widget.task.id!);
+                var isSuccess = await deleteTask(widget.task.id!);
+                isSuccess
+                    ? getTasks()
+                    : null; //faut  88888888888888888888888888888
+                setState(() {});
               }
             },
             itemBuilder: ((context) {

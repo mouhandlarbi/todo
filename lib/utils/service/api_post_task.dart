@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:todo/features/model/task.dart';
 
-Future<void> submitDatas(Task taskToSubmit) async {
+Future<bool> apiPostTask(Task taskToSubmit) async {
   //get the data from class user
   final body = taskToSubmit.toJson();
   //submit data to the server
@@ -13,13 +13,6 @@ Future<void> submitDatas(Task taskToSubmit) async {
     body: jsonEncode(body),
     headers: {'Content-Type': 'application/json'},
   );
-  //show success or fail message based on status
-  print(response);
-  /*if (response.statusCode == 201) {
-    showSuccessMessage("task added successfuly");
-    titleController.text = "";
-    descriptionController.text = "";
-  } else {
-    showErrorMessage("Error");
-  }*/
+  //return success or fail message based on status
+  return response.statusCode == 201;
 }
